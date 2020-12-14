@@ -12,11 +12,6 @@ const userReqSchema = new mongoose.Schema({
   isChecked: {
     type: Boolean,
     required: true
-  },
-  checklist: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Checklist',
-    required: true
   }
 }, {
   timestamps: true

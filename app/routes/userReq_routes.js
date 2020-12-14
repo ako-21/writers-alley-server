@@ -14,7 +14,7 @@ router.post('/userReqs', requireToken, (req, res, next) => {
   Writing.findById(writingId)
     .then(handle404)
     .then(writing => {
-      writing.checklist.userReqs.push(userReqData)
+      writing.checklist.userReq.push(userReqData)
       return writing.save()
     })
     .then(writing => res.status(201).json({writing: writing}))
@@ -22,15 +22,15 @@ router.post('/userReqs', requireToken, (req, res, next) => {
 })
 
 router.patch('/userReqs/:id', requireToken, removeBlanks, (req, res, next) => {
-  const userReqId = req.params.id
+  const userReqId = req.body.userReq.id
   const userReqData = req.body.userReq
-  const writingId = userReqData.writingId
+  const writingId = req.body.userReq.writingId
 
   Writing.findById(writingId)
     .then(handle404)
     .then(writing => {
       requireOwnership(req, writing)
-      writing.checklists.userReq.id(userReqId).set(userReqData)
+      writing.checklist.userReq.id(userReqId).set(userReqData)
       return writing.save()
     })
     .then(() => res.sendStatus(204))
@@ -38,16 +38,14 @@ router.patch('/userReqs/:id', requireToken, removeBlanks, (req, res, next) => {
 })
 
 router.delete('/userReqs/:id', requireToken, (req, res, next) => {
-  // console.log(req)
   const userReqId = req.params.id
-  const userReqData = req.body.userReq
-  const writingId = userReqData.writingId
+  const writingId = req.body.writingId
 
   Writing.findById(writingId)
     .then(handle404)
     .then(writing => {
       requireOwnership(req, writing)
-      writing.checklist.id(userReqId).remove()
+      writing.checklist.userReq.id(userReqId).remove()
       return writing.save()
     })
     .then(() => res.sendStatus(204))

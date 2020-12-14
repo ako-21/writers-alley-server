@@ -9,6 +9,7 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const Writing = require('../models/writing')
 
 router.post('/checklists', requireToken, (req, res, next) => {
+  console.log(req.body.checklist)
   const checklistData = req.body.checklist
   const writingId = checklistData.writingId
   Writing.findById(writingId)
@@ -22,15 +23,16 @@ router.post('/checklists', requireToken, (req, res, next) => {
 })
 
 router.patch('/checklists/:id', requireToken, removeBlanks, (req, res, next) => {
-  const checklistId = req.params.id
+  // const checklistId = req.params.id
   const checklistData = req.body.checklist
   const writingId = checklistData.writingId
+  // const checklistId = checklistData.checklistId
 
   Writing.findById(writingId)
     .then(handle404)
     .then(writing => {
       requireOwnership(req, writing)
-      writing.checklists.id(checklistId).set(checklistData)
+      writing.checklist.set(checklistData)
       return writing.save()
     })
     .then(() => res.sendStatus(204))

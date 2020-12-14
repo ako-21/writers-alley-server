@@ -44,6 +44,10 @@ const checklistSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  isProcess: {
+    type: Boolean,
+    required: true
+  },
   userReq: [userReqSchema],
   programReq: [programReqSchema]
 }, {
