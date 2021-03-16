@@ -6,6 +6,9 @@ const writingSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  phase: {
+    type: String
+  },
   isComplete: {
     type: Boolean,
     required: true
